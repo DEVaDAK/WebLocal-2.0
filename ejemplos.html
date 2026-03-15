@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ejemplos — WebLocal</title>
+  <meta name="description" content="Ejemplos de páginas web que creamos para negocios locales. Peluquerías, talleres, dentistas y más." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo" aria-label="WebLocal - Inicio">
+          <span class="navbar__logo-dot"></span>
+          WebLocal
+        </a>
+        <ul class="navbar__links" role="list">
+          <li><a href="index.html#solucion">Servicio</a></li>
+          <li><a href="index.html#problema">El problema</a></li>
+          <li><a href="ejemplos.html">Ejemplos</a></li>
+          <li><a href="index.html#precios">Precios</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="navbar__cta">
+          <a href="index.html#precios" class="btn btn--ghost">Ver planes</a>
+          <a href="https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20tener%20una%20página%20web%20para%20mi%20negocio." class="btn btn--whatsapp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.851L.073 23.927a.5.5 0 0 0 .612.612l6.076-1.459A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.006-1.374l-.36-.214-3.714.894.908-3.628-.234-.372A9.793 9.793 0 0 1 2.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/>
+            </svg>
+            WhatsApp
+          </a>
+        </div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <a href="index.html#solucion" class="mobile-link">Servicio</a>
+    <a href="index.html#problema" class="mobile-link">El problema</a>
+    <a href="ejemplos.html" class="mobile-link">Ejemplos</a>
+    <a href="index.html#precios" class="mobile-link">Precios</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="https://wa.me/5491100000000" class="btn btn--whatsapp" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+  </div>
+
+  <main>
+    <section class="section page-hero">
+      <div class="container">
+        <div class="text-center">
+          <div class="badge reveal">
+            <span class="dot" aria-hidden="true"></span>
+            Ejemplos
+          </div>
+          <h1 class="section-title reveal reveal-delay-1">
+            Webs que ya creamos<br />para negocios como el tuyo
+          </h1>
+          <p class="section-subtitle reveal reveal-delay-2 mx-auto">
+            Cada página es personalizada según el tipo de negocio, su marca y sus clientes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;" aria-labelledby="ejemplos-titulo">
+      <div class="container">
+        <div class="examples__grid" role="list">
+
+          <!-- Peluquería -->
+          <article class="example-card reveal" role="listitem">
+            <div class="example-card__thumb example-card__thumb--barber" role="img" aria-label="Ejemplo web peluquería">
+              <span class="example-card__label">Peluquería</span>
+              <div class="browser-mock" aria-hidden="true">
+                <div class="browser-mock__bar">
+                  <span class="browser-mock__dot"></span>
+                  <span class="browser-mock__dot"></span>
+                  <span class="browser-mock__dot"></span>
+                </div>
+                <div class="browser-mock__content">
+                  <div class="mock-line mock-line--accent" style="width:50%;height:10px;margin-bottom:4px;"></div>
+                  <div class="mock-line mock-line--short"></div>
+                  <div class="mock-line mock-line--med"></div>
+                  <div class="mock-line"></div>
+                  <div class="mock-btn"></div>
+                </div>
+              </div>
+            </div>
+            <div class="example-card__body">
+              <h3 class="example-card__name">Barbería El Rincón</h3>
+              <p class="example-card__desc">Web profesional con galería de trabajos, horarios, precio de servicios y botón directo a WhatsApp.</p>
+              <a href="#" class="btn btn--ghost" onclick="return false;" aria-label="Ver ejemplo de Barbería El Rincón">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver ejemplo
+              </a>
+            </div>
+          </article>
+
+          <!-- Taller mecánico -->
+          <article class="example-card reveal reveal-delay-1" role="listitem">
+            <div class="example-card__thumb example-card__thumb--mechanic" role="img" aria-label="Ejemplo web taller mecánico">
+              <span class="example-card__label">Taller</span>
+              <div class="browser-mock" aria-hidden="true">
+                <div class="browser-mock__bar">
+                  <span class="browser-mock__dot"></span>
+                  <span class="browser-mock__dot"></span>
+                  <span class="browser-mock__dot"></span>
+                </div>
+                <div class="browser-mock__content">
+                  <div class="mock-line" style="background:rgba(34,197,94,0.5);width:50%;height:10px;margin-bottom:4px;"></div>
+                  <div class="mock-line mock-line--short"></div>
+                  <div class="mock-line mock-line--med"></div>
+                  <div class="mock-line"></div>
+                  <div class="mock-btn" style="background:rgba(34,197,94,0.5);"></div>
+                </div>
+              </div>
+            </div>
+            <div class="example-card__body">
+              <h3 class="example-card__name">Taller Mecánico López</h3>
+              <p class="example-card__desc">Web con servicios detallados, mapa de ubicación, contacto rápido y sección de testimonios de clientes.</p>
+              <a href="#" class="btn btn--ghost" onclick="return false;" aria-label="Ver ejemplo de Taller Mecánico López">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver ejemplo
+              </a>
+            </div>
+          </article>
+
+          <!-- Dentista -->
+          <article class="example-card reveal reveal-delay-2" role="listitem">
+            <div class="example-card__thumb example-card__thumb--dentist" role="img" aria-label="Ejemplo web dentista">
+              <span class="example-card__label">Dentista</span>
+              <div class="browser-mock" aria-hidden="true">
+                <div class="browser-mock__bar">
+                  <span class="browser-mock__dot"></span>
+                  <span class="browser-mock__dot"></span>
+                  <span class="browser-mock__dot"></span>
+                </div>
+                <div class="browser-mock__content">
+                  <div class="mock-line" style="background:rgba(96,165,250,0.5);width:50%;height:10px;margin-bottom:4px;"></div>
+                  <div class="mock-line mock-line--short"></div>
+                  <div class="mock-line mock-line--med"></div>
+                  <div class="mock-line"></div>
+                  <div class="mock-btn" style="background:rgba(96,165,250,0.5);"></div>
+                </div>
+              </div>
+            </div>
+            <div class="example-card__body">
+              <h3 class="example-card__name">Consultorio Dra. Fernández</h3>
+              <p class="example-card__desc">Web médica profesional con servicios, galería, formulario de turno online y sección sobre la profesional.</p>
+              <a href="#" class="btn btn--ghost" onclick="return false;" aria-label="Ver ejemplo de Consultorio Dra. Fernández">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver ejemplo
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="navbar__logo">
+            <span class="navbar__logo-dot" aria-hidden="true"></span>
+            WebLocal
+          </div>
+          <p>Creamos páginas web profesionales para negocios locales. Rápidas, optimizadas para celulares y listas en 24 horas.</p>
+          <div class="footer__social" role="list" aria-label="Redes sociales">
+            <a href="#" class="social-link" aria-label="Instagram" rel="noopener">ig</a>
+            <a href="https://wa.me/5491100000000" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener">wa</a>
+          </div>
+        </div>
+        <nav aria-label="Links del footer">
+          <div class="footer__heading">Servicio</div>
+          <ul class="footer__links" role="list">
+            <li><a href="index.html#solucion">Cómo funciona</a></li>
+            <li><a href="ejemplos.html">Ejemplos</a></li>
+            <li><a href="index.html#precios">Precios</a></li>
+            <li><a href="faq.html">Preguntas frecuentes</a></li>
+          </ul>
+        </nav>
+        <div>
+          <div class="footer__heading">Contacto</div>
+          <ul class="footer__links" role="list">
+            <li><a href="https://wa.me/5491100000000" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#a7cfc8cbc6e7d0c2c5cbc8c4c6cb89c4c8ca89c6d5"><span class="__cf_email__" data-cfemail="ef8780838eaf988a8d83808c8e83c18c8082c18e9d">[email&#160;protected]</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year"></span> WebLocal. Todos los derechos reservados.</span>
+        <div class="footer__legal">
+          <a href="#">Política de privacidad</a>
+          <a href="#">Términos de uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20info%20sobre%20una%20página%20web%20para%20mi%20negocio." class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.851L.073 23.927a.5.5 0 0 0 .612.612l6.076-1.459A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.006-1.374l-.36-.214-3.714.894.908-3.628-.234-.372A9.793 9.793 0 0 1 2.182 12C2.182 6.569 6.56

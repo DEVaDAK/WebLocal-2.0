@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebLocal — Tu negocio en internet en 24 horas</title>
+  <meta name="description" content="Creamos páginas web profesionales para negocios locales. Hosting, mantenimiento y WhatsApp incluido. Lista en 24 horas." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================================
+       NAVBAR
+  ============================================= -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="navbar__inner">
+
+        <a href="index.html" class="navbar__logo" aria-label="WebLocal - Inicio">
+          <span class="navbar__logo-dot"></span>
+          WebLocal
+        </a>
+
+        <ul class="navbar__links" role="list">
+          <li><a href="#solucion">Servicio</a></li>
+          <li><a href="#problema">El problema</a></li>
+          <li><a href="ejemplos.html">Ejemplos</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+
+        <div class="navbar__cta">
+          <a href="#precios" class="btn btn--ghost">Ver planes</a>
+          <a href="https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20tener%20una%20página%20web%20para%20mi%20negocio." class="btn btn--whatsapp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.851L.073 23.927a.5.5 0 0 0 .612.612l6.076-1.459A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.006-1.374l-.36-.214-3.714.894.908-3.628-.234-.372A9.793 9.793 0 0 1 2.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/>
+            </svg>
+            WhatsApp
+          </a>
+        </div>
+
+        <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Menú móvil -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <a href="#solucion" class="mobile-link">Servicio</a>
+    <a href="#problema" class="mobile-link">El problema</a>
+    <a href="ejemplos.html" class="mobile-link">Ejemplos</a>
+    <a href="#precios" class="mobile-link">Precios</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20tener%20una%20página%20web." class="btn btn--whatsapp" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+  </div>
+
+
+  <!-- ============================================
+       HERO
+  ============================================= -->
+  <main>
+  <section class="hero" id="inicio" aria-label="Sección principal">
+    <div class="hero__grid" aria-hidden="true"></div>
+
+    <div class="container">
+      <div class="hero__content">
+
+        <div class="badge">
+          <span class="dot" aria-hidden="true"></span>
+          Páginas web para negocios locales
+        </div>
+
+        <h1 class="hero__title">
+          Tu negocio necesita<br />
+          una página web.<br />
+          <em>La creamos en 24 horas.</em>
+        </h1>
+
+        <p class="hero__subtitle">
+          Diseñamos páginas web profesionales, rápidas y optimizadas para celulares — para peluquerías, talleres, dentistas y más. Con hosting y mantenimiento incluidos.
+        </p>
+
+        <!-- Indicadores de confianza -->
+        <div class="hero__trust">
+          <div class="trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Lista en 24 horas
+          </div>
+          <div class="trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Sin contratos largos
+          </div>
+          <div class="trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Hosting incluido
+          </div>
+          <div class="trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Soporte en español
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       SECCIÓN PROBLEMA
+  ============================================= -->
+  <section class="section problem" id="problema" aria-labelledby="problema-titulo">
+    <div class="container">
+      <div class="text-center">
+        <div class="badge reveal">
+          <span class="dot" aria-hidden="true"></span>
+          El problema
+        </div>
+        <h2 class="section-title reveal reveal-delay-1" id="problema-titulo">
+          Tu negocio es bueno.<br />
+          Pero en internet, <span class="text-accent">no existe.</span>
+        </h2>
+        <p class="section-subtitle reveal reveal-delay-2 mx-auto">
+          Miles de clientes buscan negocios como el tuyo en Google todos los días. Si no tenés página web, los perdés al instante.
+        </p>
+      </div>
+
+      <div class="problem__grid" role="list">
+        <div class="problem__card reveal reveal-delay-1" role="listitem">
+          <div class="problem__icon" aria-hidden="true">📱</div>
+          <h3 class="problem__title">Solo tenés Instagram</h3>
+          <p class="problem__text">Instagram no es suficiente. Los clientes que buscan en Google no te van a encontrar si solo tenés redes sociales.</p>
+        </div>
+        <div class="problem__card reveal reveal-delay-2" role="listitem">
+          <div class="problem__icon" aria-hidden="true">🔍</div>
+          <h3 class="problem__title">No aparecés en Google</h3>
+          <p class="problem__text">El 80% de las personas busca negocios locales en Google. Sin web, tu competencia te gana visibilidad cada día.</p>
+        </div>
+        <div class="problem__card reveal reveal-delay-3" role="listitem">
+          <div class="problem__icon" aria-hidden="true">💸</div>
+          <h3 class="problem__title">Perdés clientes online</h3>
+          <p class="problem__text">Sin presencia digital profesional, los clientes potenciales desconfían y eligen a otro negocio que sí tiene web.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       SECCIÓN SOLUCIÓN
+  ============================================= -->
+  <section class="section" id="solucion" aria-labelledby="solucion-titulo">
+    <div class="container">
+
+      <div class="solution__header">
+        <div>
+          <div class="badge reveal">
+            <span class="dot" aria-hidden="true"></span>
+            La solución
+          </div>
+          <h2 class="section-title reveal reveal-delay-1" id="solucion-titulo">
+            Una página web<br />
+            profesional, lista y<br />
+            <span class="text-accent">por un precio justo.</span>
+          </h2>
+          <p class="section-subtitle reveal reveal-delay-2">
+            Nos ocupamos de todo: diseño, programación, hosting y mantenimiento. Vos solo nos contás de tu negocio y en 24 horas tu web está online.
+          </p>
+          <div style="margin-top:32px;" class="reveal reveal-delay-3">
+            <a href="#precios" class="btn btn--primary">Ver planes y precios</a>
+          </div>
+        </div>
+
+        <div class="solution__benefits" role="list" aria-label="Beneficios incluidos">
+          <div class="benefit-item reveal" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">⚡</div>
+            <div class="benefit-text">
+              <strong>Carga ultra rápida</strong>
+              <span>Optimizada para velocidad</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal reveal-delay-1" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">📲</div>
+            <div class="benefit-text">
+              <strong>Botón WhatsApp</strong>
+              <span>Contacto directo</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal reveal-delay-2" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">🗺️</div>
+            <div class="benefit-text">
+              <strong>Mapa de Google</strong>
+              <span>Fácil de encontrar</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal reveal-delay-3" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">📱</div>
+            <div class="benefit-text">
+              <strong>100% responsive</strong>
+              <span>Perfecta en celulares</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">🌐</div>
+            <div class="benefit-text">
+              <strong>Hosting incluido</strong>
+              <span>Sin costos extra</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal reveal-delay-1" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">🔧</div>
+            <div class="benefit-text">
+              <strong>Mantenimiento</strong>
+              <span>Nos encargamos nosotros</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal reveal-delay-2" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">🔍</div>
+            <div class="benefit-text">
+              <strong>SEO local</strong>
+              <span>Aparecé en Google</span>
+            </div>
+          </div>
+          <div class="benefit-item reveal reveal-delay-3" role="listitem">
+            <div class="benefit-icon" aria-hidden="true">💬</div>
+            <div class="benefit-text">
+              <strong>Soporte en español</strong>
+              <span>Siempre disponibles</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       PRECIOS — 2 PLANES
+  ============================================= -->
+  <section class="section pricing" id="precios" aria-labelledby="precios-titulo">
+    <div class="container">
+      <div class="text-center">
+        <div class="badge reveal">
+          <span class="dot" aria-hidden="true"></span>
+          Precios
+        </div>
+        <h2 class="section-title reveal reveal-delay-1" id="precios-titulo">
+          Dos planes,<br />sin sorpresas
+        </h2>
+        <p class="section-subtitle reveal reveal-delay-2 mx-auto">
+          Elegí el plan que mejor se adapta a tu negocio. Todo incluido, sin costos ocultos.
+        </p>
+      </div>
+
+      <!-- Grid de 2 planes -->
+      <div class="pricing__grid">
+
+        <!-- PLAN BÁSICO -->
+        <div class="pricing__card reveal reveal-delay-1" aria-label="Plan Web Básico">
+          <div class="pricing__header">
+            <div class="pricing__plan-name">Plan Web Básico</div>
+            <div class="pricing__price">
+              <span class="pricing__currency">$</span>
+              <span class="pricing__amount">XX.XXX</span>
+              <span class="pricing__period">/ mes</span>
+            </div>
+            <p class="pricing__desc">Precio en pesos argentinos · Sin costo de setup · Cancelá cuando quieras</p>
+          </div>
+
+          <div class="pricing__features" role="list" aria-label="Características del plan básico">
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Página web profesional y personalizada
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Hosting incluido (sin costos adicionales)
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Botón de WhatsApp directo
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Mapa de Google integrado
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Diseño 100% responsive para celulares
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Soporte en español por WhatsApp
+            </div>
+          </div>
+
+          <div class="pricing__cta">
+            <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20contratar%20el%20Plan%20Web%20Básico." class="btn btn--ghost btn--large" target="_blank" rel="noopener">
+              Empezar con el Básico
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- PLAN NEGOCIO (destacado) -->
+        <div class="pricing__card pricing__card--featured reveal reveal-delay-2" aria-label="Plan Web Negocio">
+          <div class="pricing__badge-top">Más popular</div>
+          <div class="pricing__header">
+            <div class="pricing__plan-name">Plan Web Negocio</div>
+            <div class="pricing__price">
+              <span class="pricing__currency">$</span>
+              <span class="pricing__amount">XX.XXX</span>
+              <span class="pricing__period">/ mes</span>
+            </div>
+            <p class="pricing__desc">Precio en pesos argentinos · Sin costo de setup · Cancelá cuando quieras</p>
+          </div>
+
+          <div class="pricing__features" role="list" aria-label="Características del plan negocio">
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Todo lo del Plan Básico
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Mantenimiento y actualizaciones incluidas
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Optimización SEO básica local
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Sección de testimonios de clientes
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Galería de fotos del negocio
+            </div>
+            <div class="pricing__feature" role="listitem">
+              <span class="feature-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              Prioridad en soporte y cambios
+            </div>
+          </div>
+
+          <div class="pricing__cta">
+            <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20contratar%20el%20Plan%20Web%20Negocio." class="btn btn--primary btn--large" target="_blank" rel="noopener">
+              Quiero mi página web
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+
+  <!-- ============================================
+       FOOTER
+  ============================================= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+
+        <!-- Brand -->
+        <div class="footer__brand">
+          <div class="navbar__logo">
+            <span class="navbar__logo-dot" aria-hidden="true"></span>
+            WebLocal
+          </div>
+          <p>Creamos páginas web profesionales para negocios locales. Rápidas, optimizadas para celulares y listas en 24 horas.</p>
+          <div class="footer__social" role="list" aria-label="Redes sociales">
+            <a href="#" class="social-link" aria-label="Instagram" rel="noopener">ig</a>
+            <a href="https://wa.me/5491100000000" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener">wa</a>
+          </div>
+        </div>
+
+        <!-- Navegación -->
+        <nav aria-label="Links del footer">
+          <div class="footer__heading">Servicio</div>
+          <ul class="footer__links" role="list">
+            <li><a href="#solucion">Cómo funciona</a></li>
+            <li><a href="ejemplos.html">Ejemplos</a></li>
+            <li><a href="#precios">Precios</a></li>
+            <li><a href="faq.html">Preguntas frecuentes</a></li>
+          </ul>
+        </nav>
+
+        <!-- Contacto -->
+        <div>
+          <div class="footer__heading">Contacto</div>
+          <ul class="footer__links" role="list">
+            <li><a href="https://wa.me/5491100000000" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#a1c9cecdc0e1d6c4c3cdcec2c0cd8fc2cecc8fc0d3"><span class="__cf_email__" data-cfemail="452d2a292405322027292a2624296b262a286b2437">[email&#160;protected]</span></a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <span>© <span id="year"></span> WebLocal. Todos los derechos reservados.</span>
+        <div class="footer__legal">
+          <a href="#">Política de privacidad</a>
+          <a href="#">Términos de uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ============================================
+       BOTÓN FLOTANTE WHATSAPP
+  ============================================= -->
+  <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20info%20sobre%20una%20página%20web%20para%20mi%20negocio." class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.851L.073 23.927a.5.5 0 0 0 .612.612l6.076-1.459A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.006-1.374l-.36-.214-3.714.894.908-3.628-.234-.372A9.793 9.793 0 0 1 2.182 12C2.182 6.569 6.56

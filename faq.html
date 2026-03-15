@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preguntas Frecuentes — WebLocal</title>
+  <meta name="description" content="Respondemos todas tus dudas sobre nuestro servicio de páginas web para negocios locales." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo" aria-label="WebLocal - Inicio">
+          <span class="navbar__logo-dot"></span>
+          WebLocal
+        </a>
+        <ul class="navbar__links" role="list">
+          <li><a href="index.html#solucion">Servicio</a></li>
+          <li><a href="index.html#problema">El problema</a></li>
+          <li><a href="ejemplos.html">Ejemplos</a></li>
+          <li><a href="index.html#precios">Precios</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="navbar__cta">
+          <a href="index.html#precios" class="btn btn--ghost">Ver planes</a>
+          <a href="https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20tener%20una%20página%20web%20para%20mi%20negocio." class="btn btn--whatsapp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.851L.073 23.927a.5.5 0 0 0 .612.612l6.076-1.459A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.006-1.374l-.36-.214-3.714.894.908-3.628-.234-.372A9.793 9.793 0 0 1 2.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/>
+            </svg>
+            WhatsApp
+          </a>
+        </div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <a href="index.html#solucion" class="mobile-link">Servicio</a>
+    <a href="index.html#problema" class="mobile-link">El problema</a>
+    <a href="ejemplos.html" class="mobile-link">Ejemplos</a>
+    <a href="index.html#precios" class="mobile-link">Precios</a>
+    <a href="faq.html" class="mobile-link">FAQ</a>
+    <a href="https://wa.me/5491100000000" class="btn btn--whatsapp" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+  </div>
+
+  <main>
+    <section class="section page-hero">
+      <div class="container">
+        <div class="text-center">
+          <div class="badge reveal">
+            <span class="dot" aria-hidden="true"></span>
+            Preguntas frecuentes
+          </div>
+          <h1 class="section-title reveal reveal-delay-1">
+            Respondemos tus dudas
+          </h1>
+          <p class="section-subtitle reveal reveal-delay-2 mx-auto">
+            Todo lo que necesitás saber sobre nuestro servicio antes de dar el primer paso.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <div class="faq__list" role="list">
+
+          <div class="faq__item reveal" role="listitem">
+            <button class="faq__question" aria-expanded="false" aria-controls="faq-1">
+              ¿Cuánto tarda en estar lista la página web?
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq__answer" id="faq-1" role="region">
+              En menos de 24 horas desde que nos enviás la información de tu negocio. Una vez que tenemos el contenido (texto, fotos, datos de contacto), nuestro equipo trabaja rápido para que tu web esté online cuanto antes.
+            </div>
+          </div>
+
+          <div class="faq__item reveal reveal-delay-1" role="listitem">
+            <button class="faq__question" aria-expanded="false" aria-controls="faq-2">
+              ¿Necesito tener conocimientos técnicos?
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq__answer" id="faq-2" role="region">
+              Para nada. Nosotros nos encargamos de todo: diseño, programación, publicación y mantenimiento. Vos solo tenés que contarnos sobre tu negocio y enviarnos las fotos. Sin estrés.
+            </div>
+          </div>
+
+          <div class="faq__item reveal reveal-delay-2" role="listitem">
+            <button class="faq__question" aria-expanded="false" aria-controls="faq-3">
+              ¿La web funciona bien en celulares?
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq__answer" id="faq-3" role="region">
+              Sí, 100%. Todas nuestras páginas están diseñadas con enfoque "mobile first" — es decir, primero pensamos en cómo se ve en el celular y luego en la computadora. El 70% de las búsquedas de negocios locales se hacen desde un smartphone.
+            </div>
+          </div>
+
+          <div class="faq__item reveal" role="listitem">
+            <button class="faq__question" aria-expanded="false" aria-controls="faq-4">
+              ¿Puedo cancelar cuando quiera?
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq__answer" id="faq-4" role="region">
+              Sí. No tenés contratos mínimos ni penalidades. Si en algún momento decidís cancelar, solo avisanos con 15 días de anticipación y listo. Sin letra chica.
+            </div>
+          </div>
+
+          <div class="faq__item reveal reveal-delay-1" role="listitem">
+            <button class="faq__question" aria-expanded="false" aria-controls="faq-5">
+              ¿Qué pasa si quiero cambiar el contenido?
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq__answer" id="faq-5" role="region">
+              El mantenimiento incluye cambios de contenido básicos: actualizar precios, agregar fotos, cambiar horarios, etc. Nos escribís por WhatsApp y lo actualizamos en el día.
+            </div>
+          </div>
+
+          <div class="faq__item reveal reveal-delay-2" role="listitem">
+            <button class="faq__question" aria-expanded="false" aria-controls="faq-6">
+              ¿Para qué tipo de negocios funciona?
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq__answer" id="faq-6" role="region">
+              Para todo tipo de negocios locales: peluquerías, barberías, restaurantes, talleres mecánicos, dentistas, abogados, contadores, estéticas, kioscos, ferreterías y muchos más. Si tenés un negocio local, necesitás una web.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="navbar__logo">
+            <span class="navbar__logo-dot" aria-hidden="true"></span>
+            WebLocal
+          </div>
+          <p>Creamos páginas web profesionales para negocios locales. Rápidas, optimizadas para celulares y listas en 24 horas.</p>
+          <div class="footer__social" role="list" aria-label="Redes sociales">
+            <a href="#" class="social-link" aria-label="Instagram" rel="noopener">ig</a>
+            <a href="https://wa.me/5491100000000" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener">wa</a>
+          </div>
+        </div>
+        <nav aria-label="Links del footer">
+          <div class="footer__heading">Servicio</div>
+          <ul class="footer__links" role="list">
+            <li><a href="index.html#solucion">Cómo funciona</a></li>
+            <li><a href="ejemplos.html">Ejemplos</a></li>
+            <li><a href="index.html#precios">Precios</a></li>
+            <li><a href="faq.html">Preguntas frecuentes</a></li>
+          </ul>
+        </nav>
+        <div>
+          <div class="footer__heading">Contacto</div>
+          <ul class="footer__links" role="list">
+            <li><a href="https://wa.me/5491100000000" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#9cf4f3f0fddcebf9fef0f3fffdf0b2fff3f1b2fdee"><span class="__cf_email__" data-cfemail="bad2d5d6dbfacddfd8d6d5d9dbd694d9d5d794dbc8">[email&#160;protected]</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year"></span> WebLocal. Todos los derechos reservados.</span>
+        <div class="footer__legal">
+          <a href="#">Política de privacidad</a>
+          <a href="#">Términos de uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20info%20sobre%20una%20página%20web%20para%20mi%20negocio." class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.851L.073 23.927a.5.5 0 0 0 .612.612l6.076-1.459A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.006-1.374l-.36-.214-3.714.894.908-3.628-.234-.372A9.793 9.793 0 0 1 2.182 12C2.182 6.569 6.56
