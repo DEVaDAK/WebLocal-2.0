@@ -593,7 +593,7 @@ body::before {
 }
 
 .example-card__body {
-  padding: 24px;
+  padding: 16px 20px;
 }
 
 .example-card__name {
