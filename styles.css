@@ -593,21 +593,18 @@ body::before {
 }
 
 .example-card__body {
-  padding: 6px 2px;
+  padding: 20px 24px 24px;
 }
 
 .example-card__name {
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
 }
 
 .example-card__desc {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 0px;
-  line-height: 1.6;
+  display: none;
 }
 
 /* =============================================
