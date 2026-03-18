@@ -606,7 +606,7 @@ body::before {
 .example-card__desc {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   line-height: 1.6;
 }
 
