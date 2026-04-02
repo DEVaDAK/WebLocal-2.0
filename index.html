@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuadernos Lisos – Todo lo que necesitas en un solo lugar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --color-primary: #01ace1;
+    --color-secondary: #f98e09;
+    --color-text-on-primary: #ffffff;
+    --color-bg: #fdfcf8;
+    --color-surface: #ffffff;
+    --color-ink: #2a2520;
+    --color-ink-light: #6b6560;
+    --color-rule: #e8e2d8;
+    --font-title: 'Poppins', Georgia, serif;
+    --font-body: 'Nunito', Arial, sans-serif;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(1,172,225,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-ink);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOTEBOOK PAPER TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        rgba(1,172,225,0.06) 31px,
+        rgba(1,172,225,0.06) 32px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253,252,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--color-primary);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .nav-logo-name {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-ink);
+    transition: all 0.3s;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-slider {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .hero-slide.active { opacity: 1; }
+
+  .hero-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(1,172,225,0.72) 0%,
+      rgba(249,142,9,0.45) 60%,
+      rgba(0,0,0,0.3) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    padding: 2rem 2rem 2rem 5vw;
+  }
+
+  /* Decorative pencil lines */
+  .hero-deco {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background: var(--color-secondary);
+    z-index: 3;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--color-secondary);
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.25rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-title {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+
+  .hero-title span {
+    color: var(--color-secondary);
+  }
+
+  .hero-slogan {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.92);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--color-secondary);
+    color: #fff;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    animation: fadeUp 0.9s 0.3s ease both;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(249,142,9,0.4);
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(249,142,9,0.5);
+  }
+
+  .hero-dots {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+  }
+
+  .hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .hero-dot.active {
+    background: var(--color-secondary);
+    transform: scale(1.3);
+  }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-label::before, .section-label::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-primary);
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    color: var(--color-ink);
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    line-height: 1.15;
+  }
+
+  /* ── NOSOTROS ── */
+  #nosotros { background: var(--color-surface); }
+
+  #nosotros .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .nosotros-text p {
+    font-size: 1.05rem;
+    color: var(--color-ink-light);
+    margin-bottom: 1rem;
+  }
+
+  .nosotros-visual {
+    position: relative;
+  }
+
+  .nosotros-card {
+    background: var(--color-bg);
+    border: 2px solid var(--color-rule);
+    border-radius: var(--radius);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nosotros-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 4px 0 0 4px;
+  }
+
+  /* Cuaderno decorativo */
+  .nosotros-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 100%;
+    background: repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      rgba(1,172,225,0.1) 31px,
+      rgba(1,172,225,0.1) 32px
+    );
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--color-surface);
+    border-radius: 10px;
+    border: 1.5px solid var(--color-rule);
+  }
+
+  .stat-number {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--color-primary);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 0.25rem;
+    display: block;
+  }
+
+  /* Pencil icon decoration */
+  .deco-pencil {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    font-size: 5rem;
+    color: var(--color-secondary);
+    opacity: 0.12;
+    transform: rotate(30deg);
+    pointer-events: none;
+  }
+
+  /* ── UBICACION ── */
+  #ubicacion {
+    background: var(--color-bg);
+  }
+
+  .ubicacion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-top: 2rem;
+  }
+
+  #map {
+    height: 380px;
+    border-radius: var(--radius);
+    border: 2px solid var(--color-rule);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .ubicacion-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-rule);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: box-shadow 0.2s;
+  }
+
+  .info-card:hover {
+    box-shadow: var(--shadow);
+  }
+
+  .info-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: var(--color-text-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .info-card-title {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-ink-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .info-card-text {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    line-height: 1.5;
+  }
+
+  .horario-list {
+    list-style: none;
+  }
+
+  .horario-list li {
+    font-size: 0.93rem;
+    color: var(--color-ink);
+    font-weight: 600;
+    padding: 0.2rem 0;
+    border-bottom: 1px dashed var(--color-rule);
+  }
+
+  .horario-list li:last-child { border-bottom: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--color-ink);
+    color: rgba(255,255,255,0.85);
+    padding: 3rem 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-brand-name {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .social-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .social-btn:hover {
+    background: var(--color-primary);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .footer-col-title {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .footer-contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-contact-list a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: color 0.2s;
+  }
+
+  .footer-contact-list a:hover { color: var(--color-primary); }
+
+  .footer-contact-list .icon {
+    width: 22px;
+    text-align: center;
+    color: var(--color-primary);
+    font-size: 0.85rem;
+  }
+
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 2.5rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 200;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse-wa 2.5s ease infinite;
+  }
+
+  .wa-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 28px rgba(37,211,102,0.55);
+    animation: none;
+  }
+
+  /* ── DIVIDERS ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 auto 3rem;
+    max-width: 200px;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--color-rule);
+  }
+
+  .section-divider i {
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-wa {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
+    50%       { box-shadow: 0 4px 32px rgba(37,211,102,0.7); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--color-bg); border-bottom: 2px solid var(--color-primary); padding: 1rem 1.5rem; gap: 1rem; }
+    .nav-links.open { display: flex; }
+    .nav-hamburger { display: flex; }
+
+    #nosotros .section-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .nosotros-visual { order: -1; }
+
+    .ubicacion-grid { grid-template-columns: 1fr; }
+    #map { height: 280px; }
+
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+
+    .hero-content { padding: 2rem 1.5rem; }
+    .hero-deco { display: none; }
+
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="https://weblocal.com.ar/uploads/clientes/Cuadernos_Lisos_3513551222/logo_1775142912_8784.jpg" alt="Logo Cuadernos Lisos" onerror="this.style.display='none'">
+    <span class="nav-logo-name">Cuadernos Lisos</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Inicio</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#ubicacion">Ubicación</a></li>
+    <li><a href="#footer">Contacto</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-deco"></div>
+  <div class="hero-slider" id="heroSlider">
+    <div class="hero-slide active" style="background-image: url('https://weblocal.com.ar/uploads/clientes/Cuadernos_Lisos_3513551222/banner_1_1775142912_9532.jpg')"></div>
+  </div>
+  <div class="hero-content">
+    <span class="hero-badge"><i class="fas fa-pencil-alt" style="margin-right:0.4rem"></i>Librería & Papelería</span>
+    <h1 class="hero-title">Cuadernos<br><span>Lisos</span></h1>
+    <p class="hero-slogan">Todo lo que necesitas en un solo lugar</p>
+    <a href="#nosotros" class="hero-cta">
+      <i class="fas fa-arrow-down"></i> Conocenos
+    </a>
+  </div>
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" onclick="goToSlide(0)"></button>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="section-inner">
+    <div class="nosotros-text">
+      <div class="section-label">Quiénes somos</div>
+      <h2 class="section-title">Una librería con historia y pasión</h2>
+      <p>
+        Somos <strong>Cuadernos Lisos</strong>, una librería con 5 años de trayectoria y un equipo de 5 personas comprometidas con brindar la mejor atención.
+      </p>
+      <p>
+        Contamos con los últimos productos de moda y todo lo que necesitás: cuadernos, útiles escolares, insumos de oficina, artículos de arte y mucho más. Siempre renovamos nuestro stock para ofrecerte las novedades del mercado.
+      </p>
+      <p>
+        Nuestro objetivo es ser tu librería de confianza, el lugar al que volvés porque siempre encontrás lo que buscás.
+      </p>
+    </div>
+    <div class="nosotros-visual">
+      <div class="nosotros-card">
+        <i class="fas fa-book-open deco-pencil"></i>
+        <div class="section-label" style="margin-bottom:0.5rem">En números</div>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Años de experiencia</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Personas en el equipo</span>
+          </div>
+          <div class="stat-item" style="grid-column: span 2;">
+            <span class="stat-number" style="font-size:1.4rem; color: var(--color-secondary);">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </span>
+            <span class="stat-label">Últimas novedades siempre disponibles</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UBICACION -->
+<section id="ubicacion">
+  <div class="section-inner">
+    <div class="section-label">Dónde encontrarnos</div>
+    <h2 class="section-title">Visitanos</h2>
+    <div class="ubicacion-grid">
+      <div id="map"></div>
+      <div class="ubicacion-info">
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="info-card-title">Dirección</div>
+            <div class="info-card-text">La Tablada 210, Centro<br>Córdoba, Argentina</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon" style="background: var(--color-secondary)"><i class="fas fa-clock"></i></div>
+          <div>
+            <div class="info-card-title">Horarios de atención</div>
+            <ul class="horario-list">
+              <li>Lunes a Viernes: 09:00–12:00</li>
+              <li>Lunes a Viernes: 14:00–18:00</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Cuadernos Lisos</div>
+      <p class="footer-tagline">Todo lo que necesitas en un solo lugar</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/davidavilak" target="_blank" rel="noopener" class="social-btn" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Contacto</div>
+      <ul class="footer-contact-list">
+        <li>
+          <a href="mailto:libreria@gmail.com">
+            <span class="icon"><i class="fas fa-envelope"></i></span>
+            libreria@gmail.com
+          </a>
+        </li>
+        <li>
+          <a href="tel:3516667738">
+            <span class="icon"><i class="fas fa-phone"></i></span>
+            3516667738
+          </a>
+        </li>
+        <li>
+          <a href="https://wa.me/3513551222" target="_blank" rel="noopener">
+            <span class="icon"><i class="fab fa-whatsapp"></i></span>
+            3513551222
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Navegación</div>
+      <ul class="footer-contact-list">
+        <li><a href="#hero"><span class="icon"><i class="fas fa-home"></i></span>Inicio</a></li>
+        <li><a href="#nosotros"><span class="icon"><i class="fas fa-users"></i></span>Nosotros</a></li>
+        <li><a href="#ubicacion"><span class="icon"><i class="fas fa-map-marker-alt"></i></span>Ubicación</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Cuadernos Lisos. Todos los derechos reservados.</p>
+    <p>Diseñado con <i class="fas fa-heart" style="color:#f98e09"></i> por WebLocal</p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/3513551222" class="wa-float" target="_blank" rel="noopener" title="Contactar por WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+// NAV MENU
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// Close menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// HERO SLIDER (solo 1 imagen en este cliente)
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+let currentSlide = 0;
+
+function goToSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide]?.classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide]?.classList.add('active');
+}
+
+if (slides.length > 1) {
+  setInterval(() => {
+    goToSlide((currentSlide + 1) % slides.length);
+  }, 5000);
+}
+
+// LEAFLET MAP
+const coords = [-31.4077518, -64.1838771];
+const map = L.map('map', { scrollWheelZoom: false }).setView(coords, 16);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 19
+}).addTo(map);
+
+const icon = L.divIcon({
+  html: `<div style="
+    background: #01ace1;
+    width: 40px; height: 40px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex; align-items: center; justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  "><i class="fas fa-pencil-alt" style="transform: rotate(45deg); color: white; font-size: 16px;"></i></div>`,
+  className: '',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40]
+});
+
+L.marker(coords, { icon }).addTo(map)
+  .bindPopup('<strong>Cuadernos Lisos</strong><br>La Tablada 210, Córdoba')
+  .openPopup();
+
+// Font Awesome en Leaflet (necesita cargarse antes)
+document.querySelector('.leaflet-marker-icon')?.querySelectorAll('i');
+</script>
+</body>
+</html>
