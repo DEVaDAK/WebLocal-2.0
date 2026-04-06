@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Peluquería</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --color-primary: #d16c29;
+    --color-secondary: #000000;
+    --color-text-on-primary: #ffffff;
+    --color-bg: #fdf8f4;
+    --color-surface: #ffffff;
+    --color-text: #1a1a1a;
+    --color-text-muted: #6b5a4e;
+    --color-accent-light: #f9ede2;
+    --font-title: 'Quicksand', Georgia, serif;
+    --font-body: 'Nunito', Arial, sans-serif;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(209,108,41,0.10);
+    --shadow-lg: 0 8px 40px rgba(209,108,41,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(253,248,244,0.92);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(209,108,41,0.12);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 20px rgba(209,108,41,0.13); }
+  .nav-logo { height: 44px; width: auto; object-fit: contain; }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-title); font-weight: 600; font-size: 0.88rem;
+    color: var(--color-text); text-decoration: none;
+    letter-spacing: 0.03em; transition: color 0.2s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 2px; background: var(--color-primary);
+    transition: width 0.3s; border-radius: 2px;
+  }
+  .nav-links a:hover { color: var(--color-primary); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 1.4rem; color: var(--color-primary); }
+  @media (max-width: 640px) {
+    .nav-links {
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: var(--color-bg); flex-direction: column;
+      padding: 20px 28px; gap: 18px;
+      border-bottom: 1px solid rgba(209,108,41,0.12);
+      transform: translateY(-120%); opacity: 0;
+      transition: transform 0.35s, opacity 0.35s; z-index: 999;
+    }
+    .nav-links.open { transform: translateY(0); opacity: 1; }
+    .nav-toggle { display: block; }
+  }
+
+  /* HERO */
+  .hero {
+    position: relative; height: 100svh; min-height: 560px;
+    overflow: hidden; display: flex; align-items: flex-end;
+  }
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.2s ease;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 40%, rgba(209,108,41,0.55) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 40px 36px; max-width: 680px;
+    animation: heroUp 1s ease both;
+  }
+  @keyframes heroUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(209,108,41,0.18); border: 1px solid rgba(209,108,41,0.45);
+    backdrop-filter: blur(8px); color: #fff;
+    font-family: var(--font-title); font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 18px;
+  }
+  .hero-title {
+    font-family: var(--font-title); font-weight: 700;
+    font-size: clamp(2.6rem, 8vw, 5rem); color: #fff;
+    line-height: 1.08; margin-bottom: 14px;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.3);
+  }
+  .hero-title span { color: var(--color-primary); }
+  .hero-slogan {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255,255,255,0.88); font-style: italic;
+    font-weight: 300; margin-bottom: 28px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--color-primary); color: var(--color-text-on-primary);
+    font-family: var(--font-title); font-weight: 700; font-size: 0.95rem;
+    padding: 14px 30px; border-radius: 100px; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(209,108,41,0.5);
+    transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 0.03em;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(209,108,41,0.6); }
+  .hero-dots {
+    position: absolute; bottom: 28px; right: 36px; z-index: 3;
+    display: flex; gap: 8px;
+  }
+  .hero-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.4); border: none; cursor: pointer;
+    transition: background 0.3s, transform 0.3s; padding: 0;
+  }
+  .hero-dot.active { background: var(--color-primary); transform: scale(1.3); }
+
+  /* SHARED */
+  section { padding: 80px 24px; }
+  .container { max-width: 1060px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-title); font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--color-primary); margin-bottom: 12px;
+  }
+  .section-label::before {
+    content: ''; display: inline-block;
+    width: 24px; height: 2px;
+    background: var(--color-primary); border-radius: 2px;
+  }
+  .section-title {
+    font-family: var(--font-title); font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    line-height: 1.15; color: var(--color-text); margin-bottom: 20px;
+  }
+  .sep { width: 56px; height: 3px; background: var(--color-primary); border-radius: 3px; margin: 16px 0 28px; }
+
+  /* NOSOTROS */
+  #nosotros { background: var(--color-surface); }
+  .nosotros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  @media (max-width: 768px) { .nosotros-grid { grid-template-columns: 1fr; gap: 36px; } }
+  .nosotros-text p { font-size: 1.05rem; color: var(--color-text-muted); margin-bottom: 16px; }
+  .nosotros-visual { position: relative; border-radius: var(--radius); overflow: visible; }
+  .nosotros-visual img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius); display: block; }
+  .nosotros-stat-card {
+    position: absolute; bottom: 24px; left: -20px;
+    background: var(--color-primary); color: var(--color-text-on-primary);
+    padding: 18px 24px; border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg); font-family: var(--font-title); font-weight: 700;
+  }
+  .nosotros-stat-card .num { font-size: 2.2rem; line-height: 1; display: block; }
+  .nosotros-stat-card .lbl { font-size: 0.78rem; opacity: 0.9; letter-spacing: 0.06em; }
+  @media (max-width: 768px) { .nosotros-stat-card { left: 16px; bottom: 16px; } }
+
+  /* GALERIA */
+  #galeria { background: var(--color-accent-light); }
+  .galeria-carousel {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    aspect-ratio: 16/9; background: #e8d5c4; box-shadow: var(--shadow-lg);
+  }
+  .galeria-track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.77,0,0.18,1); }
+  .galeria-item { flex: 0 0 100%; height: 100%; }
+  .galeria-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .galeria-placeholder {
+    width: 100%; height: 100%; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #f0e0d0 0%, #e8d5c4 100%);
+    color: var(--color-primary); gap: 12px;
+  }
+  .galeria-placeholder i { font-size: 2.5rem; opacity: 0.5; }
+  .galeria-placeholder span { font-family: var(--font-title); font-size: 0.88rem; opacity: 0.6; font-weight: 600; }
+  .galeria-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.9); border: none; border-radius: 50%;
+    width: 48px; height: 48px; font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow); transition: background 0.2s, transform 0.2s;
+    color: var(--color-primary); z-index: 2;
+  }
+  .galeria-btn:hover { background: var(--color-primary); color: #fff; transform: translateY(-50%) scale(1.08); }
+  .galeria-prev { left: 16px; } .galeria-next { right: 16px; }
+  .galeria-indicators { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+  .galeria-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.5); border: none; cursor: pointer; padding: 0;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .galeria-dot.active { background: #fff; transform: scale(1.3); }
+  .galeria-caption { text-align: center; margin-top: 20px; font-family: var(--font-title); font-size: 0.82rem; color: var(--color-text-muted); letter-spacing: 0.08em; }
+
+  /* RESENAS */
+  #resenas { background: var(--color-surface); }
+  .resenas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
+  .resena-card {
+    background: var(--color-bg); border-radius: var(--radius); padding: 26px 24px;
+    border: 1px solid rgba(209,108,41,0.1);
+    transition: transform 0.3s, box-shadow 0.3s; position: relative;
+  }
+  .resena-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .resena-stars { display: flex; gap: 3px; margin-bottom: 14px; color: var(--color-primary); font-size: 0.9rem; }
+  .resena-texto { font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 18px; font-style: italic; }
+  .resena-autor { display: flex; align-items: center; gap: 12px; }
+  .resena-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--color-primary); color: var(--color-text-on-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-title); font-weight: 700; font-size: 1rem; flex-shrink: 0;
+  }
+  .resena-nombre { font-family: var(--font-title); font-weight: 700; font-size: 0.92rem; color: var(--color-text); }
+  .resena-fecha { font-size: 0.75rem; color: var(--color-text-muted); }
+  .resena-google {
+    position: absolute; top: 20px; right: 20px; color: #aaa; font-size: 0.8rem;
+    display: flex; align-items: center; gap: 4px; font-family: var(--font-title); font-weight: 600;
+  }
+
+  /* UBICACION */
+  #ubicacion { background: var(--color-accent-light); }
+  .ubicacion-grid { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; margin-top: 40px; }
+  @media (max-width: 860px) { .ubicacion-grid { grid-template-columns: 1fr; } }
+  #map { border-radius: var(--radius); overflow: hidden; height: 340px; box-shadow: var(--shadow); }
+  .ubicacion-info { background: var(--color-surface); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
+  .info-row { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(209,108,41,0.08); }
+  .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .info-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--color-accent-light);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-primary); font-size: 1rem; flex-shrink: 0; margin-top: 2px;
+  }
+  .info-label { font-family: var(--font-title); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary); margin-bottom: 4px; }
+  .info-value { font-size: 0.95rem; color: var(--color-text); line-height: 1.5; }
+
+  /* FOOTER */
+  footer { background: var(--color-secondary); color: rgba(255,255,255,0.85); padding: 52px 24px 32px; }
+  .footer-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: start; }
+  @media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr; } }
+  .footer-brand img { height: 50px; filter: brightness(0) invert(1); margin-bottom: 14px; display: block; }
+  .footer-brand p { font-size: 0.9rem; opacity: 0.6; max-width: 340px; line-height: 1.6; }
+
+  .footer-social { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .footer-social a {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.07);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6); text-decoration: none; font-size: 1rem;
+    transition: background 0.2s, color 0.2s; border: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-social a:hover { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+
+  .footer-pedi { margin-top: 22px; }
+  .footer-pedi-label {
+    font-family: var(--font-title); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 10px; display: block;
+  }
+  .footer-pedi-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .footer-pedi-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8); text-decoration: none;
+    padding: 8px 16px; border-radius: 100px;
+    font-family: var(--font-title); font-weight: 700; font-size: 0.83rem;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .footer-pedi-link:hover { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+
+  .footer-contact { display: flex; flex-direction: column; gap: 10px; }
+  .footer-contact a {
+    display: flex; align-items: center; gap: 10px;
+    color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color 0.2s;
+  }
+  .footer-contact a i { color: var(--color-primary); width: 18px; text-align: center; }
+  .footer-contact a:hover { color: #fff; }
+
+  .footer-bottom {
+    max-width: 1060px; margin: 32px auto 0; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px; font-size: 0.78rem; opacity: 0.45;
+  }
+  .footer-bottom a { color: inherit; text-decoration: none; }
+
+  /* WA FLOTANTE */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 998;
+    display: flex; align-items: center; gap: 10px;
+    background: #25d366; color: #fff;
+    padding: 14px 20px 14px 18px; border-radius: 100px; text-decoration: none;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.45);
+    font-family: var(--font-title); font-weight: 700; font-size: 0.9rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: waPulse 2.5s ease infinite;
+  }
+  .wa-float:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 8px 32px rgba(37,211,102,0.55); animation: none; }
+  .wa-float i { font-size: 1.25rem; }
+  @keyframes waPulse {
+    0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.45); }
+    50%       { box-shadow: 0 4px 36px rgba(37,211,102,0.70); }
+  }
+  @media (max-width: 480px) { .wa-float span { display: none; } .wa-float { padding: 16px; } }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* Leaflet fix */
+  .leaflet-top, .leaflet-bottom { z-index: 400 !important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <img class="nav-logo" src="https://weblocal.com.ar/uploads/clientes/David_Peluquería_3515591310/logo_1775210494_9253.svg" alt="David Peluquería">
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#resenas">Reseñas</a></li>
+    <li><a href="#ubicacion">Ubicación</a></li>
+    <li><a href="https://wa.me/543515591310" target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp" style="color:var(--color-primary)"></i> Turno
+    </a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('https://weblocal.com.ar/uploads/clientes/David_Peluquería_3515591310/banner_1_1775210494_7293.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('https://weblocal.com.ar/uploads/clientes/David_Peluquería_3515591310/banner_2_1775210494_2132.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('https://weblocal.com.ar/uploads/clientes/David_Peluquería_3515591310/banner_3_1775210494_9495.jpg')"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fa-solid fa-scissors"></i> Peluquería Profesional</div>
+    <h1 class="hero-title">David<br><span>Peluquería</span></h1>
+    <p class="hero-slogan">"Somos Peluquería Bit"</p>
+    <a href="https://wa.me/543515591310" class="hero-cta" target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp"></i> Reservar turno
+    </a>
+  </div>
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" data-slide="0"></button>
+    <button class="hero-dot" data-slide="1"></button>
+    <button class="hero-dot" data-slide="2"></button>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="container">
+    <div class="nosotros-grid">
+      <div class="nosotros-text reveal">
+        <span class="section-label">Quiénes somos</span>
+        <h2 class="section-title">Más de una década transformando estilos</h2>
+        <div class="sep"></div>
+        <p>Somos una peluquería ubicada en pleno centro de la ciudad, con más de 10 años de experiencia y cientos de trabajos que nos avalan. Nuestra pasión es el cuidado del cabello y la atención personalizada a cada cliente.</p>
+        <p>Nos especializamos en cortes modernos y clásicos, coloraciones, tratamientos capilares y todo lo que necesitás para lucir siempre en tu mejor versión. Cada visita a David Peluquería es una experiencia única.</p>
+        <a href="https://wa.me/543515591310" class="hero-cta" target="_blank" rel="noopener" style="margin-top:10px;display:inline-flex;">
+          <i class="fa-solid fa-calendar-check"></i> Pedir turno
+        </a>
+      </div>
+      <div class="nosotros-visual reveal reveal-delay-2">
+        <img src="https://weblocal.com.ar/uploads/clientes/David_Peluquería_3515591310/banner_2_1775210494_2132.jpg" alt="Interior David Peluquería">
+        <div class="nosotros-stat-card">
+          <span class="num">+10</span>
+          <span class="lbl">Años de experiencia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA (VIP) -->
+<section id="galeria">
+  <div class="container">
+    <span class="section-label reveal">Nuestro trabajo</span>
+    <h2 class="section-title reveal reveal-delay-1">Galería de estilos</h2>
+    <div class="sep reveal reveal-delay-2"></div>
+    <div class="galeria-carousel reveal reveal-delay-1" id="galeriaCarousel">
+      <div class="galeria-track" id="galeriaTrack">
+        <div class="galeria-item">
+          <div class="galeria-placeholder">
+            <i class="fa-solid fa-camera"></i>
+            <span>Pronto aquí tus trabajos</span>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <div class="galeria-placeholder">
+            <i class="fa-solid fa-scissors"></i>
+            <span>Cortes y estilos</span>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <div class="galeria-placeholder">
+            <i class="fa-solid fa-star"></i>
+            <span>Nuestros mejores trabajos</span>
+          </div>
+        </div>
+      </div>
+      <button class="galeria-btn galeria-prev" id="galPrev"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="galeria-btn galeria-next" id="galNext"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="galeria-indicators" id="galDots">
+        <button class="galeria-dot active" data-idx="0"></button>
+        <button class="galeria-dot" data-idx="1"></button>
+        <button class="galeria-dot" data-idx="2"></button>
+      </div>
+    </div>
+    <p class="galeria-caption">Deslizá para ver más trabajos &middot; David Peluquería Córdoba</p>
+  </div>
+</section>
+
+<!-- RESEÑAS (VIP) -->
+<section id="resenas">
+  <div class="container">
+    <span class="section-label reveal">Lo que dicen de nosotros</span>
+    <h2 class="section-title reveal reveal-delay-1">Reseñas de clientes</h2>
+    <div class="sep reveal reveal-delay-2"></div>
+    <div class="resenas-grid">
+
+      <div class="resena-card reveal">
+        <div class="resena-google"><i class="fa-brands fa-google"></i> Google</div>
+        <div class="resena-stars">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="resena-texto">"El mejor corte que me hicieron en años. David tiene un ojo increíble para entender lo que uno quiere. Muy recomendable."</p>
+        <div class="resena-autor">
+          <div class="resena-avatar">M</div>
+          <div>
+            <div class="resena-nombre">Martín Gómez</div>
+            <div class="resena-fecha">Hace 2 semanas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resena-card reveal reveal-delay-1">
+        <div class="resena-google"><i class="fa-brands fa-google"></i> Google</div>
+        <div class="resena-stars">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="resena-texto">"Excelente atención y trato súper amable. Los precios son muy accesibles y el resultado es impecable. Ya soy clienta fija."</p>
+        <div class="resena-autor">
+          <div class="resena-avatar">L</div>
+          <div>
+            <div class="resena-nombre">Lucía Fernández</div>
+            <div class="resena-fecha">Hace 1 mes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resena-card reveal reveal-delay-2">
+        <div class="resena-google"><i class="fa-brands fa-google"></i> Google</div>
+        <div class="resena-stars">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+        </div>
+        <p class="resena-texto">"Muy buen trabajo en la coloración, quedó exactamente como lo pedí. Local bien ubicado y ambiente muy agradable."</p>
+        <div class="resena-autor">
+          <div class="resena-avatar">C</div>
+          <div>
+            <div class="resena-nombre">Carolina Ruiz</div>
+            <div class="resena-fecha">Hace 3 semanas</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- UBICACIÓN -->
+<section id="ubicacion">
+  <div class="container">
+    <span class="section-label reveal">Encontranos</span>
+    <h2 class="section-title reveal reveal-delay-1">Nuestra ubicación</h2>
+    <div class="sep reveal reveal-delay-2"></div>
+    <div class="ubicacion-grid">
+      <div id="map" class="reveal"></div>
+      <div class="ubicacion-info reveal reveal-delay-1">
+        <div class="info-row">
+          <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <div class="info-label">Dirección</div>
+            <div class="info-value">Germán Berdiales 1450, Córdoba</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <div class="info-label">Horarios</div>
+            <div class="info-value">Martes a Viernes: 9:00 &ndash; 18:00<br>Sábado y Domingo: 9:00 &ndash; 13:00</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+          <div>
+            <div class="info-label">Teléfono</div>
+            <div class="info-value"><a href="tel:4922545" style="color:inherit;text-decoration:none;">4922545</a></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i></div>
+          <div>
+            <div class="info-label">WhatsApp</div>
+            <div class="info-value">
+              <a href="https://wa.me/543515591310" target="_blank" rel="noopener"
+                 style="color:var(--color-primary);text-decoration:none;font-weight:600;">+54 351 559 1310</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <img src="https://weblocal.com.ar/uploads/clientes/David_Peluquería_3515591310/logo_1775210494_9253.svg" alt="David Peluquería">
+      <p>Peluquería profesional en el centro de Córdoba. Más de 10 años transformando estilos con pasión y dedicación.</p>
+
+      <div class="footer-social">
+        <a href="https://www.instagram.com/davidavilak97/?hl=es" target="_blank" rel="noopener" title="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.instagram.com/davidavilak97/?hl=es" target="_blank" rel="noopener" title="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/davidavilak97/?hl=es" target="_blank" rel="noopener" title="TikTok">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+      </div>
+
+      <div class="footer-pedi">
+        <span class="footer-pedi-label">
+          <i class="fa-solid fa-bag-shopping" style="margin-right:5px;"></i>Pedí online
+        </span>
+        <div class="footer-pedi-links">
+          <a href="https://www.instagram.com/davidavilak97/?hl=es" target="_blank" rel="noopener" class="footer-pedi-link">Pedix</a>
+          <a href="https://www.instagram.com/davidavilak97/?hl=es" target="_blank" rel="noopener" class="footer-pedi-link">Cuccina</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-contact">
+      <a href="mailto:peluqueriadavid@gmail.com">
+        <i class="fa-solid fa-envelope"></i> peluqueriadavid@gmail.com
+      </a>
+      <a href="tel:4922545">
+        <i class="fa-solid fa-phone"></i> 4922545
+      </a>
+      <a href="https://wa.me/543515591310" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> +54 351 559 1310
+      </a>
+      <a href="https://maps.google.com/?q=-31.3524503,-64.1535309" target="_blank" rel="noopener">
+        <i class="fa-solid fa-location-dot"></i> Germán Berdiales 1450
+      </a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 David Peluquería &middot; Todos los derechos reservados</span>
+    <a href="https://weblocal.com.ar" target="_blank" rel="noopener">Sitio creado por WebLocal</a>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOTANTE -->
+<a class="wa-float" href="https://wa.me/543515591310" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+  <span>Reservar turno</span>
+</a>
+
+<script>
+// NAV
+const navbar    = document.getElementById('navbar');
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.querySelector('i').className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  navToggle.querySelector('i').className = 'fa-solid fa-bars';
+}));
+
+// HERO SLIDESHOW
+(function () {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('#heroDots .hero-dot');
+  let cur = 0, timer;
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }
+  dots.forEach(d => d.addEventListener('click', () => {
+    clearInterval(timer);
+    goTo(+d.dataset.slide);
+    timer = setInterval(() => goTo(cur + 1), 5000);
+  }));
+  timer = setInterval(() => goTo(cur + 1), 5000);
+})();
+
+// GALERÍA CAROUSEL
+(function () {
+  const track   = document.getElementById('galeriaTrack');
+  const items   = track.querySelectorAll('.galeria-item');
+  const dots    = document.querySelectorAll('#galDots .galeria-dot');
+  const btnPrev = document.getElementById('galPrev');
+  const btnNext = document.getElementById('galNext');
+  const wrap    = document.getElementById('galeriaCarousel');
+  let cur = 0, autoG;
+
+  function goTo(n) {
+    cur = (n + items.length) % items.length;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+  }
+  btnPrev.addEventListener('click', () => goTo(cur - 1));
+  btnNext.addEventListener('click', () => goTo(cur + 1));
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+
+  function startAuto() { autoG = setInterval(() => goTo(cur + 1), 4000); }
+  function stopAuto()  { clearInterval(autoG); }
+  wrap.addEventListener('mouseenter', stopAuto);
+  wrap.addEventListener('mouseleave', startAuto);
+  startAuto();
+
+  let touchX = 0;
+  track.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend',   e => {
+    const diff = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? cur + 1 : cur - 1);
+  });
+})();
+
+// MAPA LEAFLET
+(function () {
+  const lat = -31.3524503, lng = -64.1535309;
+  const map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
+  }).addTo(map);
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="background:var(--color-primary);width:36px;height:36px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 12px rgba(209,108,41,0.5);border:3px solid #fff;"></div>`,
+    iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -38]
+  });
+  L.marker([lat, lng], { icon })
+    .addTo(map)
+    .bindPopup('<b>David Peluquería</b><br>Germán Berdiales 1450')
+    .openPopup();
+})();
+
+// SCROLL REVEAL
+(function () {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
